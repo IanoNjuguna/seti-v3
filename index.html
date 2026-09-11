@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seti — Send mobile money from your stablecoin balance</title>
+  <meta name="description" content="Send money straight to M-Pesa from your USDC or EURC balance, entirely inside WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #FBFBFA;
+      --bone: #F7F6F3;
+      --paper: #FFFFFF;
+      --ink: #111111;
+      --charcoal: #2F3437;
+      --muted: #787774;
+      --hairline: #EAEAEA;
+      --hairline-soft: rgba(0,0,0,0.06);
+      --pastel-red-bg: #FDEBEC;
+      --pastel-red-text: #9F2F2D;
+      --pastel-blue-bg: #E1F3FE;
+      --pastel-blue-text: #1F6C9F;
+      --pastel-green-bg: #EDF3EC;
+      --pastel-green-text: #346538;
+      --pastel-yellow-bg: #FBF3DB;
+      --pastel-yellow-text: #956400;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--canvas);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--ink); color: var(--paper); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .narrow {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(251,251,250,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--hairline-soft);
+    }
+
+    nav .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .wordmark {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: transform 150ms ease, background 150ms ease;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn-primary:hover { background: var(--charcoal); }
+
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--hairline);
+    }
+
+    .btn-ghost:hover { background: var(--bone); }
+
+    .btn-lg {
+      padding: 15px 24px;
+      font-size: 15px;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: 120px 0 140px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(120,119,116,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-40px, 30px); }
+    }
+
+    .hero .wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0 0 24px;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 46ch;
+      margin: 0 0 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero-note .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pastel-green-text);
+    }
+
+    /* Chat mockup with OS chrome */
+    .chat-frame {
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .chrome {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--hairline);
+      background: var(--paper);
+    }
+
+    .chrome-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--hairline);
+    }
+
+    .chat-body {
+      padding: 24px;
+      background: #F5F6F6;
+      min-height: 340px;
+    }
+
+    .chat-bubble {
+      max-width: 88%;
+      padding: 14px 16px;
+      border-radius: 0 14px 14px 14px;
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .chat-bubble strong { color: var(--ink); font-weight: 600; }
+
+    .chat-bubble .mono {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--bone);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .chat-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin: -8px 0 16px 4px;
+    }
+
+    .chat-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--pastel-green-text);
+      background: var(--pastel-green-bg);
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .chat-frame { max-width: 420px; margin: 0 auto; }
+    }
+
+    /* Section spacing */
+    section { padding: 110px 0; border-top: 1px solid var(--hairline); }
+
+    .section-header {
+      max-width: 600px;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4.5vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      font-weight: 400;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* Bento grids */
+    .bento {
+      display: grid;
+      gap: 16px;
+    }
+
+    .bento-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bento-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bento-asym {
+      grid-template-columns: 1.3fr 0.7fr;
+    }
+
+    @media (max-width: 800px) {
+      .bento-3, .bento-2, .bento-asym { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+
+    .card-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .icon-blue { background: var(--pastel-blue-bg); color: var(--pastel-blue-text); }
+    .icon-green { background: var(--pastel-green-bg); color: var(--pastel-green-text); }
+    .icon-yellow { background: var(--pastel-yellow-bg); color: var(--pastel-yellow-text); }
+    .icon-red { background: var(--pastel-red-bg); color: var(--pastel-red-text); }
+
+    /* How it works */
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 20px;
+      align-items: start;
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .step-number {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-md);
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .step h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* Quote preview */
+    .quote-preview {
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .quote-preview h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+
+    .quote-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--hairline-soft);
+      font-size: 14px;
+    }
+
+    .quote-row:last-child { border-bottom: none; }
+
+    .quote-row span:first-child { color: var(--muted); }
+
+    .quote-row span:last-child { font-weight: 600; font-family: var(--mono); }
+
+    .quote-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1.5px solid var(--ink);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .faq-icon {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--ink);
+      transition: transform 200ms ease;
+    }
+
+    .faq-icon::before {
+      top: 8px;
+      left: 0;
+      width: 18px;
+      height: 2px;
+    }
+
+    .faq-icon::after {
+      top: 0;
+      left: 8px;
+      width: 2px;
+      height: 18px;
+    }
+
+    .faq-item.open .faq-icon::after {
+      transform: scaleY(0);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms ease, padding 300ms ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 24px;
+    }
+
+    .faq-answer p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    /* CTA section */
+    .cta-section {
+      background: var(--bone);
+    }
+
+    .cta-box {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .cta-box h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4.5vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 20px;
+      font-weight: 400;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0 0 32px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--hairline);
+    }
+
+    footer .inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    footer .links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer .links a:hover { color: var(--ink); }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 0ms; }
+    .stagger-2 { transition-delay: 80ms; }
+    .stagger-3 { transition-delay: 160ms; }
+    .stagger-4 { transition-delay: 240ms; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <div class="inner">
+        <a href="#" class="wordmark">Seti</a>
+        <ul class="nav-links">
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#safety">Safety</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a href="#start" class="btn btn-primary">Start on WhatsApp</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="wrap">
+      <div class="hero-copy reveal">
+        <h1>Stablecoins in. Mobile money out. One message.</h1>
+        <p>Send money straight to M-Pesa from your USDC or EURC balance, entirely inside WhatsApp. No separate app. No manual bridging. Just a quote, a confirmation, and a payout.</p>
+        <div class="hero-actions">
+          <a href="#start" class="btn btn-primary btn-lg">Message Seti on WhatsApp</a>
+          <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+        </div>
+        <div class="hero-note">
+          <span class="dot"></span>
+          <span>Currently available for M-Pesa in Kenya.</span>
+        </div>
+      </div>
+
+      <div class="chat-frame reveal stagger-2">
+        <div class="chrome">
+          <div class="chrome-dot"></div>
+          <div class="chrome-dot"></div>
+          <div class="chrome-dot"></div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-bubble">
+            Send KES 3,500 to 0722111222 for rent.
+          </div>
+          <div class="chat-meta">You · 10:42 AM</div>
+
+          <div class="chat-bubble">
+            <strong>Payment quote</strong> <span class="mono">QT-8922</span><br><br>
+            Recipient: 0722111222 (validated)<br>
+            You send: <strong>$26.85 USDC</strong><br>
+            They receive: <strong>KES 3,500.00</strong><br>
+            Rate lock: 45 seconds<br><br>
+            Reply <span class="mono">CONFIRM QT-8922 nonce_9921a8f01</span> to execute.
+          </div>
+          <div class="chat-meta">Seti · 10:42 AM</div>
+
+          <div class="chat-bubble">
+            CONFIRM QT-8922 nonce_9921a8f01
+          </div>
+          <div class="chat-meta">You · 10:43 AM</div>
+
+          <div class="chat-bubble">
+            <strong>Payment settled and dispatched.</strong><br><br>
+            Swap confirmed. Settlement transfer confirmed on Celo. Pretium payout verified.<br><br>
+            Recipient 254722111222 credited with KES 3,500.00.
+            <div class="chat-status">Completed · PRT-99812</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">How it works</div>
+        <h2>One conversation. Four clear steps.</h2>
+        <p>The whole transfer happens inside WhatsApp. You state what you want, approve the exact numbers, and Seti handles the rest.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal stagger-1">
+          <div class="step-number">1</div>
+          <div>
+            <h3>Message your request</h3>
+            <p>Send a plain-language message like "Send KES 3,500 to 0722111222." Seti parses the recipient, amount, and currency.</p>
+          </div>
+        </div>
+        <div class="step reveal stagger-2">
+          <div class="step-number">2</div>
+          <div>
+            <h3>Review the quote</h3>
+            <p>Every rate, fee, and total is computed by the backend and locked for 45 seconds. You see exactly what leaves your wallet and what the recipient gets.</p>
+          </div>
+        </div>
+        <div class="step reveal stagger-3">
+          <div class="step-number">3</div>
+          <div>
+            <h3>Confirm with the quote ID and nonce</h3>
+            <p>Reply with the full confirmation string. A single confirmation can only execute once, preventing double charges or replayed requests.</p>
+          </div>
+        </div>
+        <div class="step reveal stagger-4">
+          <div class="step-number">4</div>
+          <div>
+            <h3>Track until payout</h3>
+            <p>Seti swaps your stablecoin, settles on-chain, and releases fiat through Pretium. You are only told "completed" once the mobile money network confirms the payout.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="safety" style="background: var(--paper);">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">Safety</div>
+        <h2>Built so a failed step never becomes a lost step.</h2>
+        <p>Moving money across messaging, blockchain, and mobile money means things can go wrong. Seti is designed to resolve ambiguity instead of hiding it.</p>
+      </div>
+
+      <div class="bento bento-3">
+        <div class="card reveal stagger-1">
+          <div class="card-icon icon-green">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 12l3 3 7-7"/></svg>
+          </div>
+          <h3>Idempotent by design</h3>
+          <p>One confirmation executes exactly once. Retry the same quote and you get the cached result, not a second charge.</p>
+        </div>
+        <div class="card reveal stagger-2">
+          <div class="card-icon icon-blue">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3>Balanced ledger</h3>
+          <p>Every movement is recorded as a double-entry journal, enforced at the database level, grouped per asset.</p>
+        </div>
+        <div class="card reveal stagger-3">
+          <div class="card-icon icon-yellow">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3>Independent verification</h3>
+          <p>Seti confirms every settlement transfer on-chain before telling Pretium about it. Payout status is polled, not just webhooked.</p>
+        </div>
+      </div>
+
+      <div class="bento bento-asym" style="margin-top: 16px;">
+        <div class="card reveal stagger-1">
+          <div class="card-icon icon-red">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Automatic refunds</h3>
+          <p>If a transfer fails after funds have moved on-chain but before fiat payout completes, the position is reversed and your wallet is refunded without you asking.</p>
+        </div>
+        <div class="card reveal stagger-2">
+          <div class="card-icon icon-blue">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          </div>
+          <h3>Human escalation</h3>
+          <p>Any transaction that cannot be automatically resolved within SLA is surfaced to a human reviewer, not left stuck.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">Quote preview</div>
+        <h2>You approve the exact numbers.</h2>
+        <p>No hidden re-pricing. No rounding. The quote shows everything that affects the transfer before you confirm.</p>
+      </div>
+
+      <div class="narrow">
+        <div class="quote-preview reveal">
+          <h4>Payment quote QT-8922</h4>
+          <div class="quote-row"><span>Recipient gets</span><span>KES 3,500.00</span></div>
+          <div class="quote-row"><span>Locked rate</span><span>1 USD = 130.35 KES</span></div>
+          <div class="quote-row"><span>Settlement chain</span><span>Celo</span></div>
+          <div class="quote-row"><span>Max slippage</span><span>0.50%</span></div>
+          <div class="quote-row"><span>Route</span><span>Uniswap V3</span></div>
+          <div class="quote-total"><span>Total wallet debit</span><span>$26.85 USDC</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions, answered plainly.</h2>
+      </div>
+
+      <div class="narrow reveal">
+        <div class="faq-item">
+          <button class="faq-question">
+            What stablecoins does Seti support?
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>USDC and EURC on Celo, Base, Ethereum, Polygon, and Arbitrum. Only send supported assets on supported chains. Funds sent incorrectly cannot be recovered automatically.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            How long does a transfer take?
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Most complete within a few minutes: quote, on-chain swap and settlement, then Pretium payout to the recipient's mobile money account. Delays can happen if the mobile money network is busy.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What happens if something goes wrong?
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>If the transfer fails before payout, Seti automatically reverses the transaction and refunds your wallet. If the final state is unclear, the transaction is escalated to manual review and you are messaged directly.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Is there a sending limit?
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. Limits are tiered by verification level. Tier 1 starts at $10.00 USDC per day. Identity verification unlocks higher limits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" class="cta-section">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <h2>Send your first transfer in under a minute.</h2>
+        <p>Message Seti on WhatsApp, fund your wallet, and send money to any M-Pesa number in Kenya.</p>
+        <a href="#" class="btn btn-primary btn-lg">Message Seti on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="inner">
+        <p>&copy; 2026 Seti. Open source under AGPL v3.</p>
+        <ul class="links">
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Source code</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>
