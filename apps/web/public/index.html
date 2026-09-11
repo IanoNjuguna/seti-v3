@@ -647,7 +647,7 @@
     <div class="wrap">
       <div class="hero-copy reveal">
         <h1>Stablecoins in. Mobile money out. One message.</h1>
-        <p>Send money straight to M-Pesa from your USDC or EURC balance, entirely inside WhatsApp. No separate app. No manual bridging. Just a quote, a confirmation, and a payout.</p>
+        <p>Send money straight to M-Pesa from your USDC or EURC balance, entirely inside WhatsApp. No separate app. No manual bridging. You get a quote, confirm it, and the payout goes through.</p>
         <div class="hero-actions">
           <a href="#start" class="btn btn-primary btn-lg">Message Seti on WhatsApp</a>
           <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
@@ -701,7 +701,7 @@
       <div class="section-header reveal">
         <div class="eyebrow">How it works</div>
         <h2>One conversation. Four clear steps.</h2>
-        <p>The whole transfer happens inside WhatsApp. You state what you want, approve the exact numbers, and Seti handles the rest.</p>
+        <p>The whole transfer happens inside WhatsApp. You state what you want, approve the exact numbers, then Seti handles the rest.</p>
       </div>
 
       <div class="steps">
@@ -716,21 +716,21 @@
           <div class="step-number">2</div>
           <div>
             <h3>Review the quote</h3>
-            <p>Every rate, fee, and total is computed by the backend and locked for 45 seconds. You see exactly what leaves your wallet and what the recipient gets.</p>
+            <p>The backend computes the rate, fee, and total, then locks the quote for 45 seconds. You see exactly what leaves your wallet and what the recipient gets.</p>
           </div>
         </div>
         <div class="step reveal stagger-3">
           <div class="step-number">3</div>
           <div>
             <h3>Confirm with the quote ID and nonce</h3>
-            <p>Reply with the full confirmation string. A single confirmation can only execute once, preventing double charges or replayed requests.</p>
+            <p>Reply with the full confirmation string. A single confirmation executes once. Replaying it returns the cached result, not a new charge.</p>
           </div>
         </div>
         <div class="step reveal stagger-4">
           <div class="step-number">4</div>
           <div>
             <h3>Track until payout</h3>
-            <p>Seti swaps your stablecoin, settles on-chain, and releases fiat through Pretium. You are only told "completed" once the mobile money network confirms the payout.</p>
+            <p>Seti swaps your stablecoin, settles on-chain, then releases fiat through Pretium. You only see completed once the mobile money network confirms the payout.</p>
           </div>
         </div>
       </div>
@@ -742,7 +742,7 @@
       <div class="section-header reveal">
         <div class="eyebrow">Safety</div>
         <h2>Built so a failed step never becomes a lost step.</h2>
-        <p>Moving money across messaging, blockchain, and mobile money means things can go wrong. Seti is designed to resolve ambiguity instead of hiding it.</p>
+        <p>Moving money across messaging, blockchain, and mobile money means things can go wrong. Seti resolves ambiguity instead of hiding it.</p>
       </div>
 
       <div class="bento bento-3">
@@ -758,14 +758,14 @@
             <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           </div>
           <h3>Balanced ledger</h3>
-          <p>Every movement is recorded as a double-entry journal, enforced at the database level, grouped per asset.</p>
+          <p>We record every movement as a double-entry journal, enforce it at the database level, and group it per asset.</p>
         </div>
         <div class="card reveal stagger-3">
           <div class="card-icon icon-yellow">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <h3>Independent verification</h3>
-          <p>Seti confirms every settlement transfer on-chain before telling Pretium about it. Payout status is polled, not just webhooked.</p>
+          <p>Seti confirms every settlement transfer on-chain before telling Pretium about it. It polls payout status instead of relying only on webhooks.</p>
         </div>
       </div>
 
@@ -775,14 +775,14 @@
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <h3>Automatic refunds</h3>
-          <p>If a transfer fails after funds have moved on-chain but before fiat payout completes, the position is reversed and your wallet is refunded without you asking.</p>
+          <p>If a transfer fails after funds move on-chain but before fiat payout completes, we reverse the position and refund your wallet without you asking.</p>
         </div>
         <div class="card reveal stagger-2">
           <div class="card-icon icon-blue">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
           </div>
           <h3>Human escalation</h3>
-          <p>Any transaction that cannot be automatically resolved within SLA is surfaced to a human reviewer, not left stuck.</p>
+          <p>If a transaction cannot be automatically resolved within SLA, a human reviewer takes it over. Nothing is left stuck.</p>
         </div>
       </div>
     </div>
@@ -793,7 +793,7 @@
       <div class="section-header reveal">
         <div class="eyebrow">Quote preview</div>
         <h2>You approve the exact numbers.</h2>
-        <p>No hidden re-pricing. No rounding. The quote shows everything that affects the transfer before you confirm.</p>
+        <p>No hidden re-pricing. No rounding. The quote shows the rate, fees, and total before you confirm.</p>
       </div>
 
       <div class="narrow">
@@ -824,7 +824,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>USDC and EURC on Celo, Base, Ethereum, Polygon, and Arbitrum. Only send supported assets on supported chains. Funds sent incorrectly cannot be recovered automatically.</p>
+            <p>USDC and EURC on Celo, Base, Ethereum, Polygon, and Arbitrum. Only send supported assets on supported chains. We cannot automatically recover funds sent incorrectly.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -833,7 +833,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>Most complete within a few minutes: quote, on-chain swap and settlement, then Pretium payout to the recipient's mobile money account. Delays can happen if the mobile money network is busy.</p>
+            <p>Most transfers complete within a few minutes: quote, on-chain swap and settlement, then Pretium payout to the recipient's mobile money account. Delays can happen if the mobile money network is busy.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -842,7 +842,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>If the transfer fails before payout, Seti automatically reverses the transaction and refunds your wallet. If the final state is unclear, the transaction is escalated to manual review and you are messaged directly.</p>
+            <p>If the transfer fails before payout, Seti automatically reverses the transaction and refunds your wallet. If the final state is unclear, we escalate the transaction to manual review and message you directly.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -851,7 +851,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>Yes. Limits are tiered by verification level. Tier 1 starts at $10.00 USDC per day. Identity verification unlocks higher limits.</p>
+            <p>Yes. Limits depend on your verification level. Tier 1 starts at $10.00 USDC per day. Identity verification unlocks higher limits.</p>
           </div>
         </div>
       </div>
@@ -862,7 +862,7 @@
     <div class="wrap">
       <div class="cta-box reveal">
         <h2>Send your first transfer in under a minute.</h2>
-        <p>Message Seti on WhatsApp, fund your wallet, and send money to any M-Pesa number in Kenya.</p>
+        <p>Message Seti on WhatsApp, fund your wallet, then send money to any M-Pesa number in Kenya.</p>
         <a href="#" class="btn btn-primary btn-lg">Message Seti on WhatsApp</a>
       </div>
     </div>
