@@ -3,68 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seti — Design System for seti.live</title>
+<title>Seti — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --void:#000000;
-    --indigo:#3533CC;
-    --indigo-deep:#1A1966;
-    --indigo-dark-surface:#0B0A2E;
-    --ink:#0B0B1F;
-    --paper:#F6F6FB;
-    --white:#FFFFFF;
-    --mist-700:#5B5A78;
-    --mist-400:#9291AE;
-    --mist-200:#DCDBE9;
-    --mist-100:#EEEDF6;
+    --canvas:#FBFBFA;
+    --bone:#F7F6F3;
+    --paper:#FFFFFF;
+    --ink:#111111;
+    --charcoal:#2F3437;
+    --muted:#787774;
+    --hairline:#EAEAEA;
+    --hairline-soft:rgba(0,0,0,0.06);
 
-    --success:#17B26A;
-    --success-bg:#E7F8EF;
-    --attention:#F79009;
-    --attention-bg:#FEF3E2;
-    --danger:#F04438;
-    --danger-bg:#FDECEC;
-    --progress:#3533CC;
-    --progress-bg:#EBEAFB;
+    --pastel-red-bg:#FDEBEC;
+    --pastel-red-text:#9F2F2D;
+    --pastel-blue-bg:#E1F3FE;
+    --pastel-blue-text:#1F6C9F;
+    --pastel-green-bg:#EDF3EC;
+    --pastel-green-text:#346538;
+    --pastel-yellow-bg:#FBF3DB;
+    --pastel-yellow-text:#956400;
 
-    --font-display:'Outfit', sans-serif;
-    --font-mono:'IBM Plex Mono', monospace;
+    --font-sans:'Geist Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    --font-serif:'Instrument Serif', Georgia, serif;
+    --font-mono:'JetBrains Mono', 'SF Mono', monospace;
 
     --space-1:8px; --space-2:16px; --space-3:24px; --space-4:32px;
     --space-5:48px; --space-6:64px; --space-7:96px; --space-8:140px;
 
-    --r-sm:8px; --r-md:16px; --r-lg:24px; --r-pill:999px;
+    --radius-sm:6px; --radius-md:10px; --radius-lg:12px;
   }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    font-family:var(--font-display);
+    font-family:var(--font-sans);
     color:var(--ink);
-    background:var(--paper);
+    background:var(--canvas);
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  ::selection{ background:var(--indigo); color:var(--white); }
+  ::selection{ background:var(--ink); color:var(--paper); }
 
-  a{ color:var(--indigo); text-decoration:none; }
+  a{ color:inherit; text-decoration:none; }
 
   .wrap{ max-width:920px; margin:0 auto; padding:0 var(--space-3); }
   .prose{ max-width:640px; }
 
-  section{ padding:var(--space-7) 0; border-bottom:1px solid var(--mist-100); }
+  section{ padding:var(--space-7) 0; border-bottom:1px solid var(--hairline); }
   section:last-of-type{ border-bottom:none; }
 
-  h1,h2,h3,h4{ margin:0; font-weight:700; line-height:1.1; letter-spacing:-0.01em; }
-  h2{ font-size:34px; margin-bottom:var(--space-2); }
-  h3{ font-size:20px; margin-bottom:var(--space-1); }
-  p{ line-height:1.6; color:var(--mist-700); margin:0 0 var(--space-2) 0; }
+  h1,h2,h3,h4{ margin:0; font-weight:600; line-height:1.15; letter-spacing:-0.01em; }
+  h2{ font-family:var(--font-serif); font-size:38px; font-weight:400; margin-bottom:var(--space-2); letter-spacing:-0.02em; }
+  h3{ font-size:18px; margin-bottom:var(--space-1); }
+  p{ color:var(--muted); margin:0 0 var(--space-2) 0; }
   .eyebrow{
-    font-family:var(--font-mono); font-size:13px; color:var(--indigo);
-    margin-bottom:var(--space-1);
+    font-family:var(--font-mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--muted); margin-bottom:var(--space-2);
   }
 
   code, .token{ font-family:var(--font-mono); font-size:13px; }
@@ -72,195 +71,183 @@
   /* ---------- NAV ---------- */
   nav{
     position:sticky; top:0; z-index:50;
-    background:rgba(246,246,251,0.88); backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--mist-100);
+    background:rgba(251,251,250,0.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline-soft);
   }
   nav .inner{
-    max-width:920px; margin:0 auto; padding:14px var(--space-3);
+    max-width:920px; margin:0 auto; padding:16px var(--space-3);
     display:flex; align-items:center; justify-content:space-between;
   }
-  .nav-mark{ font-weight:800; font-size:16px; letter-spacing:-0.02em; color:var(--ink); }
-  .nav-mark span{ color:var(--indigo); }
-  .nav-links{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
-  .nav-links a{ font-size:14px; color:var(--mist-700); }
-  .nav-links a:hover{ color:var(--indigo); }
+  .nav-mark{ font-family:var(--font-serif); font-size:20px; font-weight:400; letter-spacing:-0.02em; color:var(--ink); }
+  .nav-links{ display:flex; gap:24px; list-style:none; margin:0; padding:0; font-size:14px; color:var(--muted); }
+  .nav-links a:hover{ color:var(--ink); }
   @media (max-width:720px){ .nav-links{ display:none; } }
 
   /* ---------- HERO ---------- */
   .hero{
     position:relative; overflow:hidden;
-    background:linear-gradient(90deg, var(--void) 0%, var(--indigo) 100%);
-    color:var(--white);
+    background:var(--bone);
     padding:var(--space-8) 0 var(--space-7);
-    border-bottom:none;
+    border-bottom:1px solid var(--hairline);
   }
   .hero .wrap{ position:relative; z-index:2; }
-  .hero-globe{
-    position:absolute; right:-60px; top:50%; transform:translateY(-50%);
-    width:520px; height:520px; opacity:0.9;
-    animation:spin 90s linear infinite;
+  .hero-bg{
+    position:absolute; inset:0; pointer-events:none;
   }
-  @media (max-width:720px){ .hero-globe{ display:none; } }
-  @keyframes spin{ from{ transform:translateY(-50%) rotate(0deg);} to{ transform:translateY(-50%) rotate(360deg);} }
-  .hero-globe circle, .hero-globe ellipse, .hero-globe path{
-    fill:none; stroke:var(--white); stroke-width:1.6; opacity:0.55;
+  .hero-bg::before{
+    content:''; position:absolute; top:-20%; right:-10%; width:500px; height:500px;
+    background:radial-gradient(circle, rgba(120,119,116,0.05) 0%, transparent 70%);
+    border-radius:50%;
   }
-  .hero-eyebrow{ font-family:var(--font-mono); font-size:13px; opacity:0.7; margin-bottom:var(--space-2); }
+  .hero-eyebrow{ font-family:var(--font-mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:var(--space-2); }
   .hero h1{
-    font-size:clamp(40px, 6vw, 68px); font-weight:800; letter-spacing:-0.03em;
-    max-width:11ch;
+    font-family:var(--font-serif);
+    font-size:clamp(40px, 6vw, 64px); font-weight:400; letter-spacing:-0.03em;
+    max-width:14ch; line-height:1.05;
   }
-  .hero p{ color:rgba(255,255,255,0.75); max-width:44ch; font-size:18px; margin-top:var(--space-2); }
-  .wordmark{
-    display:inline-flex; align-items:baseline; font-weight:800;
-    letter-spacing:-0.02em;
-  }
-  .wordmark .dim{ opacity:0.55; }
+  .hero p{ color:var(--muted); max-width:44ch; font-size:18px; margin-top:var(--space-2); }
 
   /* ---------- PRINCIPLES ---------- */
   .principles{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-top:var(--space-4); }
   @media (max-width:640px){ .principles{ grid-template-columns:1fr; } }
-  .principle{ padding-left:var(--space-2); border-left:2px solid var(--indigo); }
+  .principle{ padding-left:var(--space-2); border-left:2px solid var(--hairline); }
   .principle h3{ color:var(--ink); }
 
   /* ---------- VOICE ---------- */
   .voice-compare{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); margin-top:var(--space-3); }
   @media (max-width:640px){ .voice-compare{ grid-template-columns:1fr; } }
-  .voice-card{ border-radius:var(--r-md); padding:var(--space-3); }
-  .voice-card.no{ background:var(--danger-bg); }
-  .voice-card.yes{ background:var(--success-bg); }
-  .voice-tag{ font-size:12px; font-weight:700; letter-spacing:0.02em; margin-bottom:10px; }
-  .voice-card.no .voice-tag{ color:var(--danger); }
-  .voice-card.yes .voice-tag{ color:var(--success); }
+  .voice-card{ border-radius:var(--radius-md); padding:var(--space-3); border:1px solid var(--hairline); }
+  .voice-card.no{ background:var(--pastel-red-bg); border-color:var(--pastel-red-bg); }
+  .voice-card.yes{ background:var(--pastel-green-bg); border-color:var(--pastel-green-bg); }
+  .voice-tag{ font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px; }
+  .voice-card.no .voice-tag{ color:var(--pastel-red-text); }
+  .voice-card.yes .voice-tag{ color:var(--pastel-green-text); }
   .voice-line{ font-size:15px; color:var(--ink); line-height:1.5; }
 
   /* ---------- LOGO ---------- */
   .logo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); margin-top:var(--space-3); }
   @media (max-width:640px){ .logo-grid{ grid-template-columns:1fr; } }
   .logo-tile{
-    border-radius:var(--r-lg); padding:var(--space-4);
+    border-radius:var(--radius-lg); padding:var(--space-4);
     display:flex; align-items:center; justify-content:center; min-height:180px;
+    border:1px solid var(--hairline);
   }
-  .logo-tile.on-dark{ background:linear-gradient(90deg, var(--void), var(--indigo)); }
-  .logo-tile.on-light{ background:var(--white); border:1px solid var(--mist-200); }
+  .logo-tile.on-dark{ background:var(--ink); }
+  .logo-tile.on-light{ background:var(--paper); }
   .logo-lockup{ display:flex; flex-direction:column; align-items:center; gap:14px; }
-  .logo-tile.on-dark .wordmark{ color:var(--white); font-size:28px; }
-  .logo-tile.on-light .wordmark{ color:var(--ink); font-size:28px; }
+  .logo-tile .wordmark{ font-family:var(--font-serif); font-size:28px; letter-spacing:-0.02em; }
+  .logo-tile.on-dark .wordmark{ color:var(--paper); }
+  .logo-tile.on-light .wordmark{ color:var(--ink); }
   .mini-globe{ width:56px; height:56px; }
-  .mini-globe circle, .mini-globe ellipse{ fill:none; stroke-width:1.5; }
-  .logo-tile.on-dark .mini-globe *{ stroke:var(--white); }
-  .logo-tile.on-light .mini-globe *{ stroke:var(--indigo); }
+  .mini-globe circle, .mini-globe ellipse, .mini-globe line{ fill:none; stroke-width:1.5; }
+  .logo-tile.on-dark .mini-globe *{ stroke:var(--paper); opacity:0.9; }
+  .logo-tile.on-light .mini-globe *{ stroke:var(--ink); opacity:0.9; }
 
   .dont-row{ display:flex; gap:var(--space-3); margin-top:var(--space-3); flex-wrap:wrap; }
   .dont{
-    flex:1; min-width:200px; border-radius:var(--r-md); background:var(--white);
-    border:1px solid var(--mist-200); padding:var(--space-2);
+    flex:1; min-width:200px; border-radius:var(--radius-md); background:var(--paper);
+    border:1px solid var(--hairline); padding:var(--space-2); font-size:14px; color:var(--muted);
   }
-  .dont-badge{ font-size:11px; font-weight:700; color:var(--danger); margin-bottom:8px; }
-  .dont-preview{ height:70px; border-radius:var(--r-sm); background:var(--mist-100); display:flex; align-items:center; justify-content:center; color:var(--mist-400); font-size:13px; margin-bottom:8px;}
+  .dont-badge{ font-family:var(--font-mono); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--pastel-red-text); margin-bottom:8px; }
+  .dont-preview{ height:70px; border-radius:var(--radius-sm); background:var(--bone); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px; margin-bottom:8px; border:1px solid var(--hairline-soft);}
 
   /* ---------- COLOR ---------- */
   .swatch-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-2); margin-top:var(--space-3); }
   @media (max-width:640px){ .swatch-grid{ grid-template-columns:repeat(2,1fr); } }
-  .swatch{ border-radius:var(--r-md); overflow:hidden; border:1px solid var(--mist-100); }
+  .swatch{ border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--hairline); }
   .swatch-color{ height:96px; }
-  .swatch-meta{ padding:12px 14px; background:var(--white); }
+  .swatch-meta{ padding:12px 14px; background:var(--paper); }
   .swatch-name{ font-weight:600; font-size:14px; }
-  .swatch-hex{ font-family:var(--font-mono); font-size:12px; color:var(--mist-700); }
-
-  .gradient-strip{
-    margin-top:var(--space-3); height:72px; border-radius:var(--r-md);
-    background:linear-gradient(90deg, var(--void) 0%, var(--indigo) 100%);
-    display:flex; align-items:center; justify-content:space-between; padding:0 20px;
-    font-family:var(--font-mono); font-size:12px; color:rgba(255,255,255,0.75);
-  }
+  .swatch-hex{ font-family:var(--font-mono); font-size:12px; color:var(--muted); }
 
   .status-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-2); margin-top:var(--space-3); }
   @media (max-width:640px){ .status-grid{ grid-template-columns:repeat(2,1fr); } }
-  .status-tile{ border-radius:var(--r-md); padding:var(--space-2); }
+  .status-tile{ border-radius:var(--radius-md); padding:var(--space-2); border:1px solid transparent; }
   .status-tile h4{ font-size:14px; margin-bottom:4px; }
-  .status-tile p{ font-size:12px; margin:0; color:inherit; opacity:0.75; }
+  .status-tile p{ font-size:12px; margin:0; color:inherit; opacity:0.8; }
   .status-tile .states{ font-family:var(--font-mono); font-size:11px; margin-top:10px; opacity:0.7; }
 
   /* ---------- TYPE ---------- */
-  .type-row{ display:flex; align-items:baseline; gap:var(--space-3); padding:var(--space-2) 0; border-top:1px solid var(--mist-100); }
+  .type-row{ display:flex; align-items:baseline; gap:var(--space-3); padding:var(--space-2) 0; border-top:1px solid var(--hairline); }
   .type-row:first-of-type{ border-top:none; }
-  .type-label{ width:120px; flex-shrink:0; font-family:var(--font-mono); font-size:12px; color:var(--mist-700); }
-  .type-sample{ font-weight:700; }
+  .type-label{ width:120px; flex-shrink:0; font-family:var(--font-mono); font-size:12px; color:var(--muted); }
+  .type-sample{ font-weight:600; }
 
   /* ---------- ICONOGRAPHY ---------- */
   .icon-row{ display:flex; gap:var(--space-4); margin-top:var(--space-3); flex-wrap:wrap; }
   .icon-item{ display:flex; flex-direction:column; align-items:center; gap:10px; width:96px; }
-  .icon-item svg{ width:44px; height:44px; }
-  .icon-item span{ font-size:12px; color:var(--mist-700); text-align:center; }
+  .icon-item svg{ width:44px; height:44px; stroke:var(--ink); stroke-width:1.7; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .icon-item span{ font-size:12px; color:var(--muted); text-align:center; }
 
   /* ---------- COMPONENTS ---------- */
   .btn{
     display:inline-flex; align-items:center; justify-content:center;
-    font-family:var(--font-display); font-weight:600; font-size:15px;
-    padding:13px 24px; border-radius:var(--r-pill); border:none; cursor:pointer;
-    transition:transform .15s ease, opacity .15s ease;
+    font-family:var(--font-sans); font-weight:600; font-size:14px;
+    padding:11px 18px; border-radius:var(--radius-sm); border:none; cursor:pointer;
+    transition:transform 150ms ease, background 150ms ease;
   }
   .btn:hover{ transform:translateY(-1px); }
-  .btn-primary{ background:var(--indigo); color:var(--white); }
-  .btn-primary:hover{ opacity:0.92; }
-  .btn-secondary{ background:transparent; color:var(--ink); border:1.5px solid var(--mist-200); }
+  .btn:active{ transform:scale(0.98); }
+  .btn-primary{ background:var(--ink); color:var(--paper); }
+  .btn-primary:hover{ background:var(--charcoal); }
+  .btn-secondary{ background:transparent; color:var(--ink); border:1px solid var(--hairline); }
+  .btn-secondary:hover{ background:var(--bone); }
   .btn-row{ display:flex; gap:14px; margin-top:var(--space-3); flex-wrap:wrap; }
 
   .badge{
-    display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600;
-    padding:6px 14px; border-radius:var(--r-pill);
+    display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600;
+    padding:5px 12px; border-radius:9999px; text-transform:uppercase; letter-spacing:0.05em;
+    font-family:var(--font-sans);
   }
-  .badge-dot{ width:7px; height:7px; border-radius:50%; }
+  .badge-dot{ width:6px; height:6px; border-radius:50%; }
   .badge-row{ display:flex; gap:12px; margin-top:var(--space-3); flex-wrap:wrap; }
 
   .quote-card{
-    margin-top:var(--space-3); max-width:380px; background:var(--white);
-    border:1px solid var(--mist-200); border-radius:var(--r-lg); padding:var(--space-3);
-    box-shadow:0 20px 40px -24px rgba(26,25,102,0.35);
+    margin-top:var(--space-3); max-width:380px; background:var(--paper);
+    border:1px solid var(--hairline); border-radius:var(--radius-lg); padding:var(--space-3);
   }
-  .quote-card .qc-title{ font-weight:700; font-size:15px; margin-bottom:2px; }
-  .quote-card .qc-id{ font-family:var(--font-mono); font-size:11px; color:var(--mist-400); margin-bottom:14px; }
-  .qc-row{ display:flex; justify-content:space-between; font-size:13px; padding:8px 0; border-top:1px solid var(--mist-100); }
+  .quote-card .qc-title{ font-weight:600; font-size:15px; margin-bottom:2px; }
+  .quote-card .qc-id{ font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-bottom:14px; }
+  .qc-row{ display:flex; justify-content:space-between; font-size:13px; padding:8px 0; border-top:1px solid var(--hairline-soft); }
   .qc-row:first-of-type{ border-top:none; }
-  .qc-label{ color:var(--mist-700); }
-  .qc-value{ font-weight:600; }
+  .qc-label{ color:var(--muted); }
+  .qc-value{ font-weight:600; font-family:var(--font-mono); }
   .qc-total{ margin-top:10px; padding-top:14px; border-top:1.5px solid var(--ink); display:flex; justify-content:space-between; align-items:baseline; }
-  .qc-total .qc-value{ font-size:20px; }
+  .qc-total .qc-value{ font-size:18px; font-family:var(--font-serif); font-weight:400; }
 
   .wa-mock{
-    margin-top:var(--space-3); max-width:340px; background:#0B141A; border-radius:var(--r-lg);
-    padding:var(--space-2);
+    margin-top:var(--space-3); max-width:340px; background:var(--paper); border-radius:var(--radius-lg);
+    padding:var(--space-2); border:1px solid var(--hairline);
   }
   .wa-bubble{
-    background:#202C33; color:#E9EDEF; border-radius:0 var(--r-md) var(--r-md) var(--r-md);
-    padding:12px 14px; font-size:14px; line-height:1.5; max-width:88%;
+    background:var(--bone); color:var(--charcoal); border-radius:0 var(--radius-md) var(--radius-md) var(--radius-md);
+    padding:12px 14px; font-size:14px; line-height:1.5; max-width:88%; border:1px solid var(--hairline);
   }
-  .wa-bubble b{ color:#fff; }
-  .wa-bubble .wa-code{ font-family:var(--font-mono); font-size:12.5px; color:#8fd6ff; }
+  .wa-bubble b{ color:var(--ink); font-weight:600; }
+  .wa-bubble .wa-code{ font-family:var(--font-mono); font-size:12px; color:var(--muted); background:rgba(0,0,0,0.03); padding:2px 5px; border-radius:4px; }
 
   /* ---------- GRID/SPACING ---------- */
   .space-track{ display:flex; align-items:flex-end; gap:10px; margin-top:var(--space-3); }
-  .space-bar{ background:var(--indigo); border-radius:4px 4px 0 0; width:34px; }
-  .space-item{ display:flex; flex-direction:column; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--mist-700); }
+  .space-bar{ background:var(--ink); border-radius:4px 4px 0 0; width:34px; opacity:0.85; }
+  .space-item{ display:flex; flex-direction:column; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--muted); }
 
   /* ---------- DO/DONT LIST ---------- */
   .rules{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-top:var(--space-3); }
   @media (max-width:640px){ .rules{ grid-template-columns:1fr; } }
-  .rules ul{ margin:0; padding-left:18px; color:var(--mist-700); font-size:14px; line-height:1.9; }
+  .rules ul{ margin:0; padding-left:18px; color:var(--muted); font-size:14px; line-height:1.9; }
   .rules h4{ font-size:13px; text-transform:none; margin-bottom:10px; }
-  .rules .do h4{ color:var(--success); }
-  .rules .dont-list h4{ color:var(--danger); }
+  .rules .do h4{ color:var(--pastel-green-text); }
+  .rules .dont-list h4{ color:var(--pastel-red-text); }
 
-  footer{ padding:var(--space-5) 0; text-align:center; }
-  footer p{ font-size:13px; color:var(--mist-400); }
+  footer{ padding:var(--space-5) 0; text-align:center; border-top:1px solid var(--hairline); }
+  footer p{ font-size:13px; color:var(--muted); }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="inner">
-    <div class="nav-mark">seti<span>.</span>live</div>
+    <div class="nav-mark">Seti</div>
     <ul class="nav-links">
       <li><a href="#principles">Principles</a></li>
       <li><a href="#voice">Voice</a></li>
@@ -273,18 +260,11 @@
 </nav>
 
 <header class="hero">
-  <svg class="hero-globe" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="100" cy="100" r="80"/>
-    <ellipse cx="100" cy="100" rx="34" ry="80"/>
-    <ellipse cx="100" cy="100" rx="62" ry="80"/>
-    <line x1="20" y1="100" x2="180" y2="100" stroke="white" stroke-width="1.6" opacity="0.55"/>
-    <line x1="27" y1="60" x2="173" y2="60" stroke="white" stroke-width="1.6" opacity="0.55"/>
-    <line x1="27" y1="140" x2="173" y2="140" stroke="white" stroke-width="1.6" opacity="0.55"/>
-  </svg>
+  <div class="hero-bg"></div>
   <div class="wrap">
     <div class="hero-eyebrow">Design System · v3</div>
     <h1>Money that moves as fast as a message.</h1>
-    <p>Seti turns a WhatsApp thread into a settlement rail — stablecoins in, mobile money out, nothing lost in between. This system keeps every surface, from a quote card to a status update, speaking with the same voice.</p>
+    <p>Seti turns a WhatsApp thread into a settlement rail. This system keeps every surface, from a quote card to a status update, speaking with the same calm, exact voice.</p>
   </div>
 </header>
 
@@ -294,11 +274,11 @@
     <div class="wrap">
       <div class="eyebrow">01 — Principles</div>
       <h2>What this brand has to be true to</h2>
-      <p class="prose">These aren't values off a poster — they're constraints that came directly out of building the product. Every visual and verbal choice in this system should trace back to one of these.</p>
+      <p class="prose">These are not values off a poster. They are constraints that came directly out of building the product. Every visual and verbal choice should trace back to one of these.</p>
       <div class="principles">
         <div class="principle">
           <h3>State the truth, not the hope</h3>
-          <p>A confirmation on one chain isn't a payout. We show progress as progress and never round a pending transfer up to "done."</p>
+          <p>A confirmation on one chain is not a payout. We show progress as progress and never round a pending transfer up to "done."</p>
         </div>
         <div class="principle">
           <h3>One thread, not one app</h3>
@@ -306,7 +286,7 @@
         </div>
         <div class="principle">
           <h3>Borderless by default</h3>
-          <p>A quote works the same whether the recipient is across town or across a border. The design doesn't add ceremony to something that should feel ordinary.</p>
+          <p>A quote works the same whether the recipient is across town or across a border. The design does not add ceremony to something that should feel ordinary.</p>
         </div>
         <div class="principle">
           <h3>Show your work</h3>
@@ -320,7 +300,7 @@
     <div class="wrap">
       <div class="eyebrow">02 — Voice</div>
       <h2>Concise, transactional, reassuring under uncertainty</h2>
-      <p class="prose">People are moving real money inside a chat window. Clarity beats friendliness — but clarity delivered coldly reads as a system that doesn't care whether the money arrived.</p>
+      <p class="prose">People are moving real money inside a chat window. Clarity beats friendliness, but clarity delivered coldly reads as a system that does not care whether the money arrived.</p>
       <div class="voice-compare">
         <div class="voice-card no">
           <div class="voice-tag">Avoid</div>
@@ -328,7 +308,7 @@
         </div>
         <div class="voice-card yes">
           <div class="voice-tag">Instead</div>
-          <div class="voice-line">"Your swap and transfer both confirmed — we're just waiting on the final payout now."</div>
+          <div class="voice-line">"Your swap and transfer both confirmed. We are waiting on the final payout now."</div>
         </div>
         <div class="voice-card no">
           <div class="voice-tag">Avoid</div>
@@ -336,7 +316,7 @@
         </div>
         <div class="voice-card yes">
           <div class="voice-tag">Instead</div>
-          <div class="voice-line">"That confirmation code has already been used — no charge was made twice."</div>
+          <div class="voice-line">"That confirmation code has already been used. No charge was made twice."</div>
         </div>
       </div>
     </div>
@@ -345,37 +325,37 @@
   <section id="logo">
     <div class="wrap">
       <div class="eyebrow">03 — Logo</div>
-      <h2>The mark and the wordmark, always together on first use</h2>
-      <p class="prose">The globe is a wireframe sphere, not a solid icon — it should always read as structure you can see through, echoing the ledger underneath every transfer. Minimum clear space around the lockup equals the height of the globe mark itself.</p>
+      <h2>The wordmark, with a wireframe globe as a secondary mark</h2>
+      <p class="prose">The globe is an open wireframe sphere, never a solid icon. It should read as structure you can see through, echoing the ledger underneath every transfer. Minimum clear space around the lockup equals the height of the globe mark itself.</p>
       <div class="logo-grid">
         <div class="logo-tile on-dark">
           <div class="logo-lockup">
             <svg class="mini-globe" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/><ellipse cx="50" cy="50" rx="17" ry="40"/><ellipse cx="50" cy="50" rx="31" ry="40"/><line x1="10" y1="50" x2="90" y2="50"/></svg>
-            <div class="wordmark">seti<span class="dim">.</span>live</div>
+            <div class="wordmark">Seti</div>
           </div>
         </div>
         <div class="logo-tile on-light">
           <div class="logo-lockup">
             <svg class="mini-globe" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/><ellipse cx="50" cy="50" rx="17" ry="40"/><ellipse cx="50" cy="50" rx="31" ry="40"/><line x1="10" y1="50" x2="90" y2="50"/></svg>
-            <div class="wordmark">seti<span class="dim">.</span>live</div>
+            <div class="wordmark">Seti</div>
           </div>
         </div>
       </div>
       <div class="dont-row">
         <div class="dont">
-          <div class="dont-badge">DON'T</div>
-          <div class="dont-preview" style="background:#E8574F; color:#fff;">seti.live</div>
-          Recolor the wordmark outside Void, Indigo, or White.
+          <div class="dont-badge">Don't</div>
+          <div class="dont-preview" style="background:#3533CC; color:#fff;">Seti</div>
+          Use a bright or coloured background behind the wordmark.
         </div>
         <div class="dont">
-          <div class="dont-badge">DON'T</div>
-          <div class="dont-preview" style="font-style:italic;">seti.live</div>
-          Italicize, condense, or add a drop shadow to the type.
+          <div class="dont-badge">Don't</div>
+          <div class="dont-preview" style="font-style:italic;">Seti</div>
+          Italicise, condense, or add a drop shadow to the type.
         </div>
         <div class="dont">
-          <div class="dont-badge">DON'T</div>
-          <div class="dont-preview">🌍 seti.live</div>
-          Substitute the wireframe globe with an emoji or solid icon.
+          <div class="dont-badge">Don't</div>
+          <div class="dont-preview">Seti.</div>
+          Add a trailing period or domain suffix to the wordmark.
         </div>
       </div>
     </div>
@@ -384,42 +364,37 @@
   <section id="color">
     <div class="wrap">
       <div class="eyebrow">04 — Colour</div>
-      <h2>Sampled from the mark, not chosen from a wheel</h2>
-      <p class="prose">The core palette is the exact gradient the logo already uses. We don't introduce new brand hues to "warm up" a screen — restraint here is what keeps a payments product feeling calm rather than promotional.</p>
-
-      <div class="gradient-strip">
-        <span>#000000 — Void</span>
-        <span>#3533CC — Signal Indigo</span>
-      </div>
+      <h2>Warm monochrome, with colour reserved for meaning</h2>
+      <p class="prose">The core palette is intentionally quiet. Colour is a scarce resource used only for status, tags, and semantic accents. Restraint keeps a payments product feeling calm rather than promotional.</p>
 
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color" style="background:#000000;"></div><div class="swatch-meta"><div class="swatch-name">Void</div><div class="swatch-hex">#000000</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background:#3533CC;"></div><div class="swatch-meta"><div class="swatch-name">Signal Indigo</div><div class="swatch-hex">#3533CC</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background:#1A1966;"></div><div class="swatch-meta"><div class="swatch-name">Deep Indigo</div><div class="swatch-hex">#1A1966</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #EEEDF6;"></div><div class="swatch-meta"><div class="swatch-name">White</div><div class="swatch-hex">#FFFFFF</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background:#F6F6FB;"></div><div class="swatch-meta"><div class="swatch-name">Paper</div><div class="swatch-hex">#F6F6FB</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background:#9291AE;"></div><div class="swatch-meta"><div class="swatch-name">Mist</div><div class="swatch-hex">#9291AE</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#111111;"></div><div class="swatch-meta"><div class="swatch-name">Ink</div><div class="swatch-hex">#111111</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2F3437;"></div><div class="swatch-meta"><div class="swatch-name">Charcoal</div><div class="swatch-hex">#2F3437</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#787774;"></div><div class="swatch-meta"><div class="swatch-name">Muted</div><div class="swatch-hex">#787774</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FBFBFA; border-bottom:1px solid #EAEAEA;"></div><div class="swatch-meta"><div class="swatch-name">Canvas</div><div class="swatch-hex">#FBFBFA</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F7F6F3;"></div><div class="swatch-meta"><div class="swatch-name">Bone</div><div class="swatch-hex">#F7F6F3</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #EAEAEA;"></div><div class="swatch-meta"><div class="swatch-name">Paper</div><div class="swatch-hex">#FFFFFF</div></div></div>
       </div>
 
-      <h3 style="margin-top:var(--space-5);">Status colour — tied to the state machine, not decoration</h3>
+      <h3 style="margin-top:var(--space-5);">Status colour — tied to the state machine</h3>
       <p class="prose">These four colours map directly onto <code>transactions.status</code>. A colour is only ever used to mean one of these four things, anywhere in the product.</p>
       <div class="status-grid">
-        <div class="status-tile" style="background:var(--progress-bg); color:var(--progress);">
+        <div class="status-tile" style="background:var(--pastel-blue-bg); color:var(--pastel-blue-text);">
           <h4>In progress</h4>
           <p>Swap, transfer, or payout underway.</p>
           <div class="states">SWAPPING · PRETIUM_VERIFYING</div>
         </div>
-        <div class="status-tile" style="background:var(--success-bg); color:var(--success);">
+        <div class="status-tile" style="background:var(--pastel-green-bg); color:var(--pastel-green-text);">
           <h4>Settled</h4>
           <p>Payout confirmed by the provider.</p>
           <div class="states">COMPLETED</div>
         </div>
-        <div class="status-tile" style="background:var(--attention-bg); color:#B45B00;">
+        <div class="status-tile" style="background:var(--pastel-yellow-bg); color:var(--pastel-yellow-text);">
           <h4>Needs attention</h4>
           <p>Ambiguous — escalated, not lost.</p>
           <div class="states">MANUAL_REVIEW · *_UNKNOWN</div>
         </div>
-        <div class="status-tile" style="background:var(--danger-bg); color:var(--danger);">
+        <div class="status-tile" style="background:var(--pastel-red-bg); color:var(--pastel-red-text);">
           <h4>Reversed</h4>
           <p>Refunded automatically, no user action needed.</p>
           <div class="states">SAGA_COMPENSATED</div>
@@ -431,14 +406,14 @@
   <section id="type">
     <div class="wrap">
       <div class="eyebrow">05 — Typography</div>
-      <h2>Outfit for voice, mono for proof</h2>
-      <p class="prose">Outfit carries every headline, label, and message — it's geometric and rounded enough to match the mark's own terminals. IBM Plex Mono is used only for the things that need to be copied exactly: hashes, references, quote IDs.</p>
+      <h2>Serif for voice, sans for interface, mono for proof</h2>
+      <p class="prose">Instrument Serif carries headlines and brand moments. Geist Sans carries every label, button, and message. JetBrains Mono is used only for things that must be copied exactly: hashes, references, quote IDs.</p>
       <div style="margin-top:var(--space-3);">
-        <div class="type-row"><div class="type-label">Display / 800</div><div class="type-sample" style="font-size:44px;">Send it.</div></div>
-        <div class="type-row"><div class="type-label">Heading / 700</div><div class="type-sample" style="font-size:28px;">Payment Quote Generated</div></div>
-        <div class="type-row"><div class="type-label">Body / 500</div><div class="type-sample" style="font-size:16px; font-weight:500;">Your swap and settlement transfer have both confirmed.</div></div>
-        <div class="type-row"><div class="type-label">Label / 600</div><div class="type-sample" style="font-size:13px; font-weight:600; color:var(--mist-700);">Recipient Hash</div></div>
-        <div class="type-row"><div class="type-label">Data / mono</div><div class="type-sample token" style="color:var(--indigo);">0x91a2…3f1c</div></div>
+        <div class="type-row"><div class="type-label">Display / serif</div><div class="type-sample" style="font-family:var(--font-serif); font-size:44px; font-weight:400;">Send it.</div></div>
+        <div class="type-row"><div class="type-label">Heading / serif</div><div class="type-sample" style="font-family:var(--font-serif); font-size:28px; font-weight:400;">Payment quote generated</div></div>
+        <div class="type-row"><div class="type-label">Body / sans</div><div class="type-sample" style="font-family:var(--font-sans); font-size:16px; font-weight:500;">Your swap and settlement transfer have both confirmed.</div></div>
+        <div class="type-row"><div class="type-label">Label / sans</div><div class="type-sample" style="font-family:var(--font-sans); font-size:13px; font-weight:600; color:var(--muted);">Recipient hash</div></div>
+        <div class="type-row"><div class="type-label">Data / mono</div><div class="type-sample token" style="font-family:var(--font-mono); color:var(--charcoal);">0x91a2…3f1c</div></div>
       </div>
     </div>
   </section>
@@ -447,13 +422,13 @@
     <div class="wrap">
       <div class="eyebrow">06 — Iconography</div>
       <h2>One stroke weight, always open</h2>
-      <p class="prose">Icons are line-drawn at a consistent 1.6px stroke, never filled solid — the same "wireframe, not solid" logic as the globe mark. No emoji stand in for a system icon; emoji are reserved for conversational warmth in chat copy only.</p>
+      <p class="prose">Icons are line-drawn at a consistent 1.7px stroke, never filled solid. They echo the wireframe globe mark. No emoji stand in for a system icon.</p>
       <div class="icon-row">
-        <div class="icon-item"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#3533CC" stroke-width="1.8"/><path d="M24 5c6 6 6 32 0 38M24 5c-6 6-6 32 0 38M5 24h38" fill="none" stroke="#3533CC" stroke-width="1.8"/></svg><span>Network</span></div>
-        <div class="icon-item"><svg viewBox="0 0 48 48"><path d="M24 6l16 8v10c0 10-7 17-16 20-9-3-16-10-16-20V14l16-8z" fill="none" stroke="#3533CC" stroke-width="1.8"/><path d="M17 24l5 5 9-10" fill="none" stroke="#3533CC" stroke-width="1.8"/></svg><span>Verified</span></div>
-        <div class="icon-item"><svg viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="24" rx="4" fill="none" stroke="#3533CC" stroke-width="1.8"/><path d="M8 20h32M16 28h10" fill="none" stroke="#3533CC" stroke-width="1.8"/></svg><span>Ledger</span></div>
-        <div class="icon-item"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#3533CC" stroke-width="1.8"/><path d="M24 14v10l7 5" fill="none" stroke="#3533CC" stroke-width="1.8"/></svg><span>Pending</span></div>
-        <div class="icon-item"><svg viewBox="0 0 48 48"><path d="M24 8l4 12h13l-10.5 8 4 12L24 32l-10.5 8 4-12L7 20h13z" fill="none" stroke="#3533CC" stroke-width="1.8"/></svg><span>Reserved</span></div>
+        <div class="icon-item"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M24 5c6 6 6 32 0 38M24 5c-6 6-6 32 0 38M5 24h38"/></svg><span>Network</span></div>
+        <div class="icon-item"><svg viewBox="0 0 48 48"><path d="M24 6l16 8v10c0 10-7 17-16 20-9-3-16-10-16-20V14l16-8z"/><path d="M17 24l5 5 9-10"/></svg><span>Verified</span></div>
+        <div class="icon-item"><svg viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="24" rx="4"/><path d="M8 20h32M16 28h10"/></svg><span>Ledger</span></div>
+        <div class="icon-item"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><path d="M24 14v10l7 5"/></svg><span>Pending</span></div>
+        <div class="icon-item"><svg viewBox="0 0 48 48"><path d="M24 8l4 12h13l-10.5 8 4 12L24 32l-10.5 8 4-12L7 20h13z"/></svg><span>Reserved</span></div>
       </div>
     </div>
   </section>
@@ -472,15 +447,15 @@
 
       <h3 style="margin-top:var(--space-4);">Status badges</h3>
       <div class="badge-row">
-        <span class="badge" style="background:var(--progress-bg); color:var(--progress);"><span class="badge-dot" style="background:var(--progress);"></span>In progress</span>
-        <span class="badge" style="background:var(--success-bg); color:var(--success);"><span class="badge-dot" style="background:var(--success);"></span>Settled</span>
-        <span class="badge" style="background:var(--attention-bg); color:#B45B00;"><span class="badge-dot" style="background:var(--attention);"></span>Needs attention</span>
-        <span class="badge" style="background:var(--danger-bg); color:var(--danger);"><span class="badge-dot" style="background:var(--danger);"></span>Reversed</span>
+        <span class="badge" style="background:var(--pastel-blue-bg); color:var(--pastel-blue-text);"><span class="badge-dot" style="background:var(--pastel-blue-text);"></span>In progress</span>
+        <span class="badge" style="background:var(--pastel-green-bg); color:var(--pastel-green-text);"><span class="badge-dot" style="background:var(--pastel-green-text);"></span>Settled</span>
+        <span class="badge" style="background:var(--pastel-yellow-bg); color:var(--pastel-yellow-text);"><span class="badge-dot" style="background:var(--pastel-yellow-text);"></span>Needs attention</span>
+        <span class="badge" style="background:var(--pastel-red-bg); color:var(--pastel-red-text);"><span class="badge-dot" style="background:var(--pastel-red-text);"></span>Reversed</span>
       </div>
 
       <h3 style="margin-top:var(--space-4);">Quote card</h3>
       <div class="quote-card">
-        <div class="qc-title">Payment Quote</div>
+        <div class="qc-title">Payment quote</div>
         <div class="qc-id">QT-8922</div>
         <div class="qc-row"><span class="qc-label">Amount</span><span class="qc-value">KES 350.00</span></div>
         <div class="qc-row"><span class="qc-label">Route</span><span class="qc-value">Uniswap V3</span></div>
@@ -491,10 +466,10 @@
       <h3 style="margin-top:var(--space-4);">WhatsApp message</h3>
       <div class="wa-mock">
         <div class="wa-bubble">
-          ✅ <b>Seti Payment Settled &amp; Dispatched</b><br><br>
-          🔄 DEX Swap: <span class="wa-code">0x91a2...3f1c</span> — Confirmed<br>
-          ⚡ Pretium Payout: Verified &amp; Released<br><br>
-          📩 Recipient credited with KES 350.00.
+          <b>Seti payment settled and dispatched</b><br><br>
+          DEX swap: <span class="wa-code">0x91a2…3f1c</span> — confirmed<br>
+          Pretium payout: verified and released<br><br>
+          Recipient credited with KES 350.00.
         </div>
       </div>
     </div>
@@ -504,7 +479,7 @@
     <div class="wrap">
       <div class="eyebrow">08 — Spacing</div>
       <h2>An 8px scale, nothing in between</h2>
-      <p class="prose">Every margin and padding in the product traces to this scale. It keeps a hand-built WhatsApp message and a future dashboard screen feeling like the same rhythm.</p>
+      <p class="prose">Every margin and padding in the product traces to this scale. It keeps a hand-built WhatsApp message and a landing page screen feeling like the same rhythm.</p>
       <div class="space-track">
         <div class="space-item"><div class="space-bar" style="height:8px;"></div>8</div>
         <div class="space-item"><div class="space-bar" style="height:16px;"></div>16</div>
@@ -535,9 +510,9 @@
           <h4>Don't</h4>
           <ul>
             <li>Show an internal error code or state name to a user.</li>
-            <li>Add a new accent colour to make a screen feel "more done."</li>
+            <li>Use a gradient, heavy shadow, or bright hero background.</li>
             <li>Round an in-progress transfer up to "complete."</li>
-            <li>Use a solid-fill icon anywhere in the product.</li>
+            <li>Use emoji in system icons, headings, or alt text.</li>
           </ul>
         </div>
       </div>
@@ -547,7 +522,7 @@
 </main>
 
 <footer>
-  <p>Design System · seti-v3</p>
+  <p>Design System · Seti v3</p>
 </footer>
 
 </body>
