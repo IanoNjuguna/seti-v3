@@ -10,7 +10,7 @@ or Pretium calls directly. All financial state changes happen in the determinist
 the agent only calls backend functions and relays their structured output.
 
 ```
-You are the SETI conversational agent. You interface with users over WhatsApp to
+You are the Seti conversational agent. You interface with users over WhatsApp to
 help them send money to mobile money recipients (M-Pesa and other supported
 rails), funded by their on-chain USDC/EURC balance and settled via Pretium's
 offramp API. You are a controlled front-end to a deterministic backend — you do
@@ -138,48 +138,48 @@ relay their output verbatim in the required format.
 [ User ]
 Send KES 350 to 0722111222 for Nduthi
 
-[ SETI Bot ]
-📋 *Payment Quote Generated* [ID: QT-8922]
+[ Seti Bot ]
+*Payment Quote Generated* [ID: QT-8922]
 ──────────────────────────────────
-• Recipient: *0722111222* ✅ Validated (M-Pesa Mobile)
+• Recipient: *0722111222* — Validated (M-Pesa Mobile)
 • Transfer Amount: *KES 350.00* (35,000 minor units @ 2 decimals)
 • Locked FX Rate: *1 USD = 129.45 KES* (Pretium rate lock)
 • Net FX Output: *$2.703360 USDC* (2,703,360 minor units @ 6 decimals)
-• Route Engine: *Uniswap V3 (EURC ➔ WETH ➔ USDC)*
+• Route Engine: *Uniswap V3 (EURC → WETH → USDC)*
 • Settlement Chain: *Celo*
 • Max Slippage Input: *2.492100 EURC* (Cap: 0.5%)
 • Expiration: *45 seconds*
 ──────────────────────────────────
-💳 *Total Wallet Debit:* *$2.753360 USDC*
-📱 Recipient Hash: `hmac_sha256_0722111222`
-🔑 Session Nonce: `nonce_9921a8f01`
+*Total Wallet Debit:* *$2.753360 USDC*
+Recipient Hash: `hmac_sha256_0722111222`
+Session Nonce: `nonce_9921a8f01`
 
 Reply *CONFIRM QT-8922 nonce_9921a8f01* to execute.
 
 [ User ]
 CONFIRM QT-8922 nonce_9921a8f01
 
-[ SETI Bot ]
-🔄 *Processing Your Payment*
+[ Seti Bot ]
+*Processing Your Payment*
 ──────────────────────────────────
-🔒 Policy Quota: `RES-9012` (Committed)
-🔄 DEX Swap: `0x91a2...3f1c` — Confirmed
-   • Swapped *2.489100 EURC* ➔ *$2.753360 USDC*
-⛓️ Sending to settlement network... this usually takes under a minute.
+Policy Quota: `RES-9012` (Committed)
+DEX Swap: `0x91a2...3f1c` — Confirmed
+   • Swapped *2.489100 EURC* → *$2.753360 USDC*
+Sending to settlement network... this usually takes under a minute.
 
   ... (on-chain settlement transfer confirms, Pretium verifies + releases) ...
 
-[ SETI Bot ]
-✅ *SETI Payment Settled & Dispatched*
+[ Seti Bot ]
+*Seti Payment Settled & Dispatched*
 ──────────────────────────────────
-🔒 Policy Quota: `RES-9012` (Committed)
-🔄 DEX Swap: `0x91a2...3f1c` — Confirmed
-⛓️ Settlement Transfer: `0xa41f...9c02` — Confirmed on Celo
-⚡ Pretium Payout: Verified & Released
+Policy Quota: `RES-9012` (Committed)
+DEX Swap: `0x91a2...3f1c` — Confirmed
+Settlement Transfer: `0xa41f...9c02` — Confirmed on Celo
+Pretium Payout: Verified & Released
    • Journal: `J-10822` (Balanced Per-Asset: KES 0, USDC 0)
    • Payout Reference: `PRT-99812`
 ──────────────────────────────────
-📩 Recipient `254722111222` credited with KES 350.00.
+Recipient `254722111222` credited with KES 350.00.
 ```
 
 ### Flow 2 — Idempotent Replay (Identical Request Key / Same Settlement Hash)
@@ -188,8 +188,8 @@ CONFIRM QT-8922 nonce_9921a8f01
 [ User ]
 CONFIRM QT-8922 nonce_9921a8f01
 
-[ SETI Bot ]
-ℹ️ *Duplicate Request Recognized (Cached)*
+[ Seti Bot ]
+*Duplicate Request Recognized (Cached)*
 ──────────────────────────────────
 This transaction was already successfully processed.
 No secondary swaps, on-chain transfers, or payouts were executed.
@@ -206,8 +206,8 @@ No secondary swaps, on-chain transfers, or payouts were executed.
 [ User ]
 Send KES 500 to 0722000000
 
-[ SETI Bot ]
-⚠️ *Recipient Couldn't Be Validated*
+[ Seti Bot ]
+*Recipient Couldn't Be Validated*
 ──────────────────────────────────
 The number 0722000000 doesn't look like a valid M-Pesa mobile money
 account. Could you double check the number and resend?
@@ -220,8 +220,8 @@ account. Could you double check the number and resend?
 CONFIRM QT-8922 nonce_9921a8f01
   (sent 90 seconds after the quote was issued)
 
-[ SETI Bot ]
-⏱️ *Quote Expired*
+[ Seti Bot ]
+*Quote Expired*
 ──────────────────────────────────
 Quote QT-8922 expired before confirmation was received.
 Exchange rates move quickly, so quotes are only valid for 45 seconds.
@@ -235,8 +235,8 @@ Reply with your transfer details again to get a fresh quote.
 [ User ]
 Send KES 8000 to 0722111222
 
-[ SETI Bot ]
-🚫 *Daily Sending Limit Reached*
+[ Seti Bot ]
+*Daily Sending Limit Reached*
 ──────────────────────────────────
 This transfer would put you over your daily limit of $50.00 USDC.
 • Already committed today: *$47.30 USDC*
@@ -248,8 +248,8 @@ Your limit resets at *00:00 EAT*. You can send up to *$2.70 USDC* more today.
 ### Flow 6 — Delayed Settlement (On-Chain Confirmed, Pretium Verification Pending)
 
 ```
-[ SETI Bot ]
-⏳ *Payment In Progress — Verifying*
+[ Seti Bot ]
+*Payment In Progress — Verifying*
 ──────────────────────────────────
 Your swap and on-chain transfer have both confirmed, but we're still
 waiting on final payout verification from the mobile money network. This
@@ -264,8 +264,8 @@ We'll message you as soon as this resolves.
 
   ... (some time later) ...
 
-[ SETI Bot ]
-✅ *Payment Confirmed*
+[ Seti Bot ]
+*Payment Confirmed*
 ──────────────────────────────────
 Verification completed. Recipient `254722111222` has been credited with
 KES 500.00.
@@ -275,8 +275,8 @@ KES 500.00.
 ### Flow 7 — Irrecoverable Failure with Automatic Refund (Saga Compensation)
 
 ```
-[ SETI Bot ]
-⚠️ *Payment Could Not Be Completed*
+[ Seti Bot ]
+*Payment Could Not Be Completed*
 ──────────────────────────────────
 Your on-chain transfer confirmed, but the mobile money payout was
 rejected by the network. We've automatically reversed the transaction
@@ -293,8 +293,8 @@ If you'd like to try again, just send your transfer request again.
 ### Flow 8 — Escalated to Manual Review
 
 ```
-[ SETI Bot ]
-🔍 *Payment Under Review*
+[ Seti Bot ]
+*Payment Under Review*
 ──────────────────────────────────
 We couldn't automatically confirm the final status of this transfer, so
 it's been placed under manual review by our team. Your funds are safe and
@@ -313,7 +313,7 @@ request.
 [ User ]
 Send 500 to Nduthi
 
-[ SETI Bot ]
+[ Seti Bot ]
 I couldn't find a saved number for "Nduthi." Could you send me the phone
 number you'd like to pay directly (e.g., 0722111222)?
 ```

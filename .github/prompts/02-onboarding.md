@@ -1,4 +1,4 @@
-# SETI — Onboarding Flow
+# Seti — Onboarding Flow
 
 Draws on the identity model, KYC-tiered policy limits, and non-goals defined
 in the PRD (§5 Users, §6.5 Policy/spend limits, §4 Non-Goals), and follows
@@ -23,35 +23,35 @@ same WhatsApp thread, gated in front of Flow 1 of the main wireframe.
 
 ## Flow O1 — First Contact & Terms
 
-Triggered on a user's first message ever to the SETI number.
+Triggered on a user's first message ever to the Seti number.
 
 ``` text
 [ User ]
 Hi
 
-[ SETI Bot ]
-👋 *Welcome to SETI*
+[ Seti Bot ]
+*Welcome to Seti*
 ──────────────────────────────────
-SETI lets you send money straight to M-Pesa from your stablecoin balance —
+Seti lets you send money straight to M-Pesa from your stablecoin balance —
 right here in WhatsApp. No app, no separate wallet screen.
 
 Before we set up your account, please confirm you've read our Terms of
 Service and Privacy Policy:
-🔗 seti.network/terms · seti.network/privacy
+Links: seti.network/terms · seti.network/privacy
 
 Reply *AGREE* to continue.
 
 [ User ]
 AGREE
 
-[ SETI Bot ]
-Thanks — setting up your account now. This takes a few seconds. ⏳
+[ Seti Bot ]
+Thanks — setting up your account now. This takes a few seconds.
 ```
 
 If the user replies with anything other than `AGREE`:
 
 ``` text
-[ SETI Bot ]
+[ Seti Bot ]
 No problem — whenever you're ready, reply *AGREE* to set up your account
 and start sending money. If you have questions about the terms first, just
 ask.
@@ -67,11 +67,11 @@ get created — the user never sees the raw phone-hash mechanics, only the
 result.
 
 ``` text
-[ SETI Bot ]
-✅ *Account Created*
+[ Seti Bot ]
+*Account Created*
 ──────────────────────────────────
 • Account ID: `USR-4471`
-• Your SETI Wallet Address: `0x7c3a...9e21`
+• Your Seti Wallet Address: `0x7c3a...9e21`
 • Network: Celo
 • Verification Tier: *Tier 1 (Basic)*
 • Daily Sending Limit: *$10.00 USDC*
@@ -85,15 +85,15 @@ message for how to fund it.
 ## Flow O3 — Funding Instructions
 
 ``` text
-[ SETI Bot ]
-💰 *Fund Your SETI Wallet*
+[ Seti Bot ]
+*Fund Your Seti Wallet*
 ──────────────────────────────────
 Send USDC or EURC to your wallet address on a supported network:
 
-📍 Address: `0x7c3a...9e21`
-🔗 Supported networks: Celo, Base, Ethereum, Polygon, Arbitrum
+Address: `0x7c3a...9e21`
+Supported networks: Celo, Base, Ethereum, Polygon, Arbitrum
 
-⚠️ Only send USDC or EURC on one of these networks. Funds sent on an
+Note: Only send USDC or EURC on one of these networks. Funds sent on an
 unsupported network or in a different asset cannot be recovered
 automatically.
 
@@ -107,8 +107,8 @@ for example: *"Send KES 500 to 0722111222"*
 [ User ]
 Send KES 500 to 0722111222
 
-[ SETI Bot ]
-⚠️ *Insufficient Balance*
+[ Seti Bot ]
+*Insufficient Balance*
 ──────────────────────────────────
 Your wallet doesn't have enough funds for this transfer yet.
 
@@ -128,8 +128,8 @@ or reactively when a user hits their Tier 1 limit (see Flow 5 of the main
 wireframe, "Daily Sending Limit Reached").
 
 ``` text
-[ SETI Bot ]
-📈 *Want a higher sending limit?*
+[ Seti Bot ]
+*Want a higher sending limit?*
 ──────────────────────────────────
 You're currently on *Tier 1* ($10.00 USDC/day). Verifying your identity
 unlocks higher limits:
@@ -143,20 +143,20 @@ transfers.
 [ User ]
 VERIFY
 
-[ SETI Bot ]
+[ Seti Bot ]
 You'll be redirected to a secure verification link. This is handled by our
-verification partner — SETI never sees or stores your ID documents
+verification partner — Seti never sees or stores your ID documents
 directly.
 
-🔗 [verification link]
+Link: [verification link]
 
 We'll message you here as soon as it's done — usually within a few
 minutes.
 
   ... (verification completes) ...
 
-[ SETI Bot ]
-✅ *Verification Complete — You're now Tier 2*
+[ Seti Bot ]
+*Verification Complete — You're now Tier 2*
 ──────────────────────────────────
 Your daily sending limit is now *$50.00 USDC*.
 ```
@@ -164,8 +164,8 @@ Your daily sending limit is now *$50.00 USDC*.
 ### Edge case — verification fails or is inconclusive
 
 ``` text
-[ SETI Bot ]
-⚠️ *We Couldn't Verify Your Identity*
+[ Seti Bot ]
+*We Couldn't Verify Your Identity*
 ──────────────────────────────────
 Your Tier 1 limit is unaffected — you can keep sending up to $10.00 USDC/day
 as normal.
@@ -183,8 +183,8 @@ reasonable window, a single nudge (respecting WhatsApp session/template
 constraints — see PRD §10 Risks) is acceptable:
 
 ``` text
-[ SETI Bot ]
-👋 Your wallet is funded and ready to go. Whenever you'd like to send
+[ Seti Bot ]
+Your wallet is funded and ready to go. Whenever you'd like to send
 money, just tell me the amount and the recipient's number — for example:
 
 *"Send KES 1000 to 0722111222"*
@@ -202,8 +202,8 @@ recurring check.
 [ User ]
 Send KES 200 to 0733222111
 
-[ SETI Bot ]
-📋 *Payment Quote Generated* [ID: QT-9014]
+[ Seti Bot ]
+*Payment Quote Generated* [ID: QT-9014]
 ──────────────────────────────────
 ...
 ``` markdown
@@ -236,7 +236,7 @@ folded into §6/§7 on the next PRD revision:
   case).
 - **Open question, same category as the Pretium SLA item:** what's the
   expected turnaround time for the identity verification provider, and
-  should SETI poll or rely on their webhook for the "verification complete"
+  should Seti poll or rely on their webhook for the "verification complete"
   message — mirrors the polling-vs-webhook design already established for
   Pretium (PRD §7.4) and should probably follow the same pattern once a
   provider is chosen.
