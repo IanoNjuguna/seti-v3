@@ -81,6 +81,8 @@ seti-v3/
 - PostgreSQL 14+
 - Redis 7+ (for background jobs — optional for basic prototype)
 
+> **Prefer Docker?** See the [Docker setup](#run-with-docker) below.
+
 ### 1. Install dependencies
 
 ```bash
@@ -188,6 +190,44 @@ curl -X POST http://localhost:3001/api/v1/webhooks/whatsapp \
       }]
     }]
   }'
+```
+
+## Run with Docker
+
+The fastest way to run the full stack is with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+
+- PostgreSQL on `localhost:5432`
+- Redis on `localhost:6379`
+- API on `http://localhost:3001`
+- Web app on `http://localhost:3000`
+
+The API container automatically runs migrations and seeds the prototype user on startup.
+
+You can override environment variables by creating a `.env` file in the project root:
+
+```env
+PRETIUM_API_KEY=your_key
+WHATSAPP_ACCESS_TOKEN=your_token
+WHATSAPP_VERIFY_TOKEN=seti-dev-token
+```
+
+To stop:
+
+```bash
+docker compose down
+```
+
+To reset the database:
+
+```bash
+docker compose down -v
+docker compose up --build
 ```
 
 ## Status
