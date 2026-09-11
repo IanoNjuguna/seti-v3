@@ -1,200 +1,169 @@
 ---
 name: commit
-description: Commit current changes to git in atomic, scoped commits and optionally push to GitHub.
+description: Use when the user asks to commit changes, save work, push to GitHub, or make an atomic commit. Triggers on "commit", "push", "save my work", "atomic commit", "commit and push".
+allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 
-# Skill: Atomic Commit and Push to GitHub
+# Commit
 
-## When to use
+Save work to git in small, logical, atomic commits. One idea per commit. No batch noise.
 
-Use this skill when the user asks you to:
+## When to Use
 
-- Commit current work
-- Save changes to git
-- Push to GitHub
-- Create a commit and push
-- "Commit and push"
+- User asks to commit changes
+- User asks to push to GitHub
+- User asks for an atomic commit
+- User says "save my work" and the repo has uncommitted changes
+- After completing a discrete task that changes files
 
-Do not use this skill for other git operations like rebasing, resetting, branching, or force-pushing.
+## When NOT to Use
 
-## Core principle: atomic commits
+- The repo has no changes
+- User explicitly says not to commit
+- The changes are temporary, generated, or should be ignored
 
-**Never batch unrelated changes into a single commit.** Each commit should represent one logical change. A commit message like "update stuff" or a diff that touches landing pages, wireframes, and the design system all at once creates noise and makes review and rollback harder.
+## Core Principles
 
-When multiple unrelated files are modified, group them by scope and commit each group separately.
-
-## Safety rules
-
-1. **Never push without explicit user confirmation.** Pushing is an outward-facing action that touches shared state.
-2. **Never commit secrets.** If `.env`, key files, or credentials appear in `git status`, stop and warn the user.
-3. **Never run destructive git commands** (`git reset`, `git rebase`, `git push --force`) using this skill.
-4. **Respect `.gitignore`.** Do not stage files that should be ignored.
-5. **Check the current branch** before committing. Warn the user if they are on `main` or `master` and the change looks experimental.
-6. **Avoid `git add -A`.** Stage files deliberately by path or scope unless the user explicitly asks for an all-changes commit.
-
-## Arguments
-
-The skill accepts an optional argument string:
-
-- `commit` — inspect changes, propose atomic groupings, commit each group
-- `push` — commit atomically, then ask for confirmation before pushing
-- `"<scope>: <description>"` — commit only files matching that scope with the given message
-- `"<scope>: <description>" push` — commit matching files and ask to push
-- `<scope>` — commit only files belonging to the named scope (e.g., `design`, `docs`, `chore`)
-
-If no argument is provided, default to `commit`.
+1. **One idea per commit.** A commit should contain one logical change, not a mixed bag.
+2. **Atomic commits.** A commit should leave the repo in a working state. If tests exist and are relevant, they should pass.
+3. **Clear messages.** A commit message says what changed and why. No "update" or "fix".
+4. **Stage deliberately.** Do not use `git add .` blindly. Stage files that belong together.
+5. **Separate unrelated changes.** If two changes are unrelated, make two commits.
+6. **Don't commit generated files.** Build outputs, dependencies, and temp files stay out.
+7. **Push only when asked.** Commit locally by default. Push when the user asks or confirms.
 
 ## Workflow
 
-### Step 1: Inspect the repository state
+```dot
+digraph commit {
+  rankdir=TB;
+  "Check git status" -> "Group changes logically";
+  "Group changes logically" -> "Stage first group";
+  "Stage first group" -> "Write commit message";
+  "Write commit message" -> "Commit";
+  "Commit" -> "More groups?";
+  "More groups?" -> "Stage next group" [label="yes"];
+  "More groups?" -> "Push if asked" [label="no"];
+  "Stage next group" -> "Write commit message";
+  "Push if asked" -> "Done";
+}
+```
+
+## Execution Steps
+
+### Step 1: Inspect the Repo
 
 Run:
-
 ```bash
 git status --short
-git branch --show-current
 ```
 
-If there are no changes, tell the user there is nothing to commit.
-
-### Step 2: Review and group changes
-
-Run:
-
+Also check for untracked files that should probably be ignored:
 ```bash
-git diff --stat
+git status --short --untracked-files=all
 ```
 
-Look at the modified files and propose logical groupings. Common scopes for this project:
+### Step 2: Group Changes
 
-- `design` — visual/design system changes (`03-design.html`, `index.html`)
-- `docs` — wireframes, PRD, README
-- `chore` — tooling, config, skill files
-- `feat` — new backend/frontend functionality
-- `fix` — bug fixes
+Look at the changed files and group them into logical commits. Common groupings:
 
-If the changes clearly belong to separate scopes, propose multiple atomic commits. For example:
+- **Feature work:** source code + tests for one feature
+- **Config/infra:** Docker, CI, environment files
+- **Docs:** README, AGENTS.md, comments
+- **Skill changes:** one skill per commit
+- **Refactor:** mechanical renames or moves without behavior changes
+- **Style/formatting:** only formatting, no logic
 
-```
-1. design: add minimalist landing page
-   Files: index.html
+If a single file contains unrelated changes, consider whether to split it with `git add -p`. For simple files, one commit is fine.
 
-2. design: update design system to warm monochrome palette
-   Files: .github/prompts/03-design.html
+### Step 3: Stage and Commit Each Group
 
-3. docs: align wireframes and onboarding with new design voice
-   Files: .github/prompts/00-wireframe.md, .github/prompts/02-onboarding.md
+For each group:
 
-4. docs: standardize product name casing in PRD
-   Files: .github/prompts/01-prd.md
+1. Stage only the files in that group:
+   ```bash
+   git add <file1> <file2> ...
+   ```
 
-5. chore: add commit-and-push skill
-   Files: .agents/skills/commit/SKILL.md
-```
+2. Write a commit message following this format:
+   ```
+   <type>: <short summary>
 
-Ask the user to confirm the groupings, or let them adjust.
+   <optional body explaining why>
+   ```
 
-### Step 3: Review each diff
+   Types:
+   - `feat:` new feature
+   - `fix:` bug fix
+   - `docs:` documentation only
+   - `style:` formatting, no logic
+   - `refactor:` code change that neither fixes nor adds
+   - `test:` adding or updating tests
+   - `chore:` build, config, tooling
+   - `skill:` adding or updating an agent skill
 
-For each proposed commit group, run:
+3. Commit:
+   ```bash
+   git commit -m "<type>: <summary>" -m "<body if needed>"
+   ```
 
+### Step 4: Push if Asked
+
+If the user asked to push:
 ```bash
-git diff -- <files-in-group>
+git push
 ```
 
-Summarize the changes in plain language. Flag any suspicious files (secrets, build outputs, dependencies).
-
-### Step 4: Determine commit messages
-
-If the user provided a commit message in the argument, use it for the matching scope.
-
-If not, generate concise commit messages following this convention:
-
-```
-<scope>: <description>
-```
-
-Examples:
-
-- `design: add minimalist landing page`
-- `docs: align wireframes with new design system`
-- `chore: remove emojis from chat templates`
-- `feat: add recipient validation before quoting`
-
-Use lowercase for the description. Keep the first line under 72 characters. If the change is large or complex, add a blank line and a short body explaining why.
-
-### Step 5: Confirm before committing
-
-Show the proposed commits to the user and ask for confirmation before running any `git commit`, unless the user already provided an explicit message and scope.
-
-If the user says no or asks to revise, update the groupings or messages and ask again.
-
-### Step 6: Stage and commit atomically
-
-For each confirmed commit group, run:
-
+If the current branch has no upstream:
 ```bash
-git add <file1> <file2> ...
-git commit -m "<scope>: <description>"
+git push -u origin $(git branch --show-current)
 ```
 
-Report each short commit hash and summary back to the user.
+## Commit Message Rules
 
-### Step 7: Push (only if requested and confirmed)
+- Keep the summary under 50 characters when possible.
+- Use the imperative mood: "add" not "added" or "adds".
+- Explain what and why in the body, not how.
+- Reference issue numbers only if they exist and are relevant.
 
-If the argument includes `push` or the user explicitly asks to push after committing:
+## Examples
 
-1. State the current branch and remote.
-2. Ask for explicit confirmation: "Push these N commits to `origin/<branch>`?"
-3. Only after confirmation, run:
+Good:
+```
+skill: port humanise-text skill to be agent-agnostic
 
-```bash
-git push origin <branch>
+Remove Claude-specific paths and the Opus subagent requirement.
+Replace the Python-script-dependent workflow with a direct
+rewrite workflow that any agent can follow.
 ```
 
-Report the result. If the push fails, explain the error and do not retry automatically.
+Good:
+```
+feat: humanise landing page copy
 
-## Example invocations
+Apply banned-pattern and structural rules from the humanise-text
+skill. Replace passive voice, break tricolons, and tighten wording
+while preserving the minimalist-ui visual structure.
+```
 
+Bad:
 ```
-Skill: commit
+update
 ```
-> Inspects changes, proposes atomic groupings, asks for confirmation, commits each group.
 
+Bad:
 ```
-Skill: commit "design: add landing page"
+fix stuff and add feature
 ```
-> Commits only files matching the `design` scope with the provided message.
 
-```
-Skill: commit docs
-```
-> Commits only files in the `docs` scope with an auto-generated message.
+## Safety Checks
 
-```
-Skill: commit push
-```
-> Commits atomically, then asks for confirmation before pushing.
-
-```
-Skill: commit "docs: update wireframes" push
-```
-> Commits docs-scope files with the provided message, then asks to push.
-
-## Output format
+Before committing:
+- Do not commit files that are only build outputs or dependencies.
+- Do not commit `.env`, secrets, or credential files.
+- Do not commit if the user has explicitly asked not to.
+- If tests are relevant and quick, run them before the final commit.
 
 After committing:
-
-```
-Committed <short-hash>: <message>
-Committed <short-hash>: <message>
-...
-Branch: <branch>
-```
-
-After pushing (if confirmed):
-
-```
-Pushed N commits to origin/<branch>
-Latest: <short-hash>
-```
+- Run `git status --short` to confirm nothing was missed.
+- Report the commits made to the user.
