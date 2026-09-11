@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String   @id @default(uuid())
+  phoneNumber            String   @unique
+  phoneLookupToken       String   @unique
+  smartAccountAddress    String
+  sessionKeyAddress      String
+  verificationTier       String
+  dailyLimitMinorUnits   Int
+  dailySentMinorUnits    Int      @default(0)
+  limitResetsAt          DateTime
+  agreedToTermsAt        DateTime
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  quotes       Quote[]
+  transactions Transaction[]
+
+  @@index([phoneLookupToken])
+  @@map("users")
+}
+
+model Quote {
+  id                  String   @id
+  userId              String
+  recipientIdentifier String
+  recipientHash       String
+  payoutRail          String
+  transferCurrency    String
+  transferMinorUnits  Int
+  transferDecimals    Int
+  fxRate              String
+  netOutputAsset      String
+  netOutputMinorUnits Int
+  totalDebitAsset     String
+  totalDebitMinorUnits Int
+  route               String
+  settlementChain     String
+  maxSlippageAsset    String
+  maxSlippageMinorUnits Int
+  maxSlippageCapPercent Float
+  expiresAt           DateTime
+  nonce               String   @unique
+  createdAt           DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("quotes")
+}
+
+model Transaction {
+  id                    String    @id
+  userId                String
+  quoteId               String
+  status                String
+  recipientIdentifier   String
+  recipientHash         String
+  payoutRail            String
+  transferCurrency      String
+  transferMinorUnits    Int
+  totalDebitAsset       String
+  totalDebitMinorUnits  Int
+  settlementAsset       String
+  settlementChain       String
+  settlementAmount      String
+  settlementTxHash      String?
+  payoutReference       String?
+  payoutVerifiedAt      DateTime?
+  journalId             String?
+  failureReason         String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  quote Quote @relation(fields: [quoteId], references: [id])
+
+  events TransactionEvent[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([quoteId])
+  @@map("transactions")
+}
+
+model TransactionEvent {
+  id            String   @id @default(uuid())
+  transactionId String
+  type          String
+  payload       Json
+  createdAt     DateTime @default(now())
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@index([transactionId])
+  @@index([createdAt])
+  @@map("transaction_events")
+}
+
+model IdempotencyKey {
+  key       String   @id
+  scope     String
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@index([scope])
+  @@map("idempotency_keys")
+}
+
+model ExternalOperation {
+  id              String   @id @default(uuid())
+  transactionId   String
+  provider        String
+  operationType   String
+  requestPayload  Json
+  responsePayload Json?
+  status          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([transactionId])
+  @@index([provider, operationType])
+  @@map("external_operations")
+}
