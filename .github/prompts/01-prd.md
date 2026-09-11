@@ -1,10 +1,10 @@
-# SETI — Product Requirements Document
+# Seti — Product Requirements Document
 
 ---
 
 ## 1. Summary
 
-SETI lets a user send money to a mobile money recipient (starting with M-Pesa
+Seti lets a user send money to a mobile money recipient (starting with M-Pesa
 in Kenya) by texting a plain-language instruction to a WhatsApp number. The
 transfer is funded from the user's on-chain stablecoin balance (EURC/USDC),
 swapped on-chain as needed, settled to Pretium's offramp settlement address,
@@ -17,7 +17,7 @@ platform, a blockchain, and a payments provider.
 
 Sending money into Kenyan mobile money from a stablecoin balance today
 requires the sender to understand exchange onramps, hold the right asset on
-the right chain, and manually track a multi-step settlement process. SETI
+the right chain, and manually track a multi-step settlement process. Seti
 collapses this into a single WhatsApp conversation: state an amount and a
 recipient, confirm a quote, get notified when it lands. The product succeeds
 if a non-technical user can do this with the same confidence as a native
@@ -46,7 +46,7 @@ can't get a straight answer about.
 - Support for payout rails other than mobile money (paybill, till, bank) —
   parsed and validated for later, not built for v1.
 - In-chat wallet funding (topping up the user's on-chain balance) — assumed
-  to happen outside SETI in v1.
+  to happen outside Seti in v1.
 - A web or app UI. WhatsApp is the only surface.
 - Support for asset swaps beyond the EURC/USDC → Pretium-accepted-asset path
   already scoped.
@@ -57,7 +57,7 @@ can't get a straight answer about.
   business in Kenya via mobile money, without manually bridging/converting
   themselves.
 - **Secondary (implicit):** The mobile money recipient, who never interacts
-  with SETI directly — they just receive a standard mobile money credit.
+  with Seti directly — they just receive a standard mobile money credit.
 - **Internal:** An operations/support role who handles `MANUAL_REVIEW`
   escalations.
 
@@ -266,9 +266,9 @@ dedup key on their side is the on-chain `transaction_hash` itself, since
 happened before releasing fiat against it. This is actually a reasonable
 idempotency anchor: a given `transaction_hash` can only correspond to one
 real transfer, so re-submitting the same hash should be safe to treat as a
-duplicate on SETI's side regardless of whether Pretium separately
+duplicate on Seti's side regardless of whether Pretium separately
 deduplicates it. **Recommendation:** don't rely on Pretium silently
-deduplicating a resubmitted `transaction_hash` — SETI's own
+deduplicating a resubmitted `transaction_hash` — Seti's own
 `external_operations.idempotency_key` (keyed off the settlement transaction
 hash) should be the enforced idempotency boundary, with Pretium's response
 treated as authoritative for status but not assumed to be duplicate-safe on
